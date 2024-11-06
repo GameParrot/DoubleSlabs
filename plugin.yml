@@ -1,0 +1,7 @@
+---
+name: DoubleSlabs
+version: 0.0.1
+main: gameparrot\doubleslabs\DoubleSlabs
+api: 5.20.0
+src-namespace-prefix: gameparrot\doubleslabs
+...
