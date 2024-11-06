@@ -43,7 +43,7 @@ class DoubleSlabsListener implements Listener {
 		if (!$heldBlock instanceof Slab) {
 			return;
 		}
-		if ($heldBlock->getSlabType() === SlabType::DOUBLE) {
+		if ($heldBlock->getSlabType() === SlabType::DOUBLE()) {
 			return;
 		}
 
@@ -55,7 +55,7 @@ class DoubleSlabsListener implements Listener {
 			}
 		} else {
 			$otherBlock = $block->getSide($event->getFace(), -1);
-			if ($otherBlock instanceof Slab && $block->getSlabType() !== SlabType::DOUBLE && $block->getTypeId() === $heldBlock->getTypeId() && $heldBlock->getTypeId() === $otherBlock->getTypeId()) {
+			if ($otherBlock instanceof Slab && $block->getSlabType() !== SlabType::DOUBLE() && $block->getTypeId() === $heldBlock->getTypeId() && $heldBlock->getTypeId() === $otherBlock->getTypeId()) {
 				$subChunk = $player->getWorld()->getChunk($otherBlock->getPosition()->x >> Chunk::COORD_BIT_SIZE, $otherBlock->getPosition()->z >> Chunk::COORD_BIT_SIZE)->getSubChunk($otherBlock->getPosition()->y >> Chunk::COORD_BIT_SIZE);
 				$layers = $subChunk->getBlockLayers();
 				if (isset($layers[1]) && ($existingState = $layers[1]->get($otherBlock->getPosition()->x, $otherBlock->getPosition()->y, $otherBlock->getPosition()->z)) !== $this->emptyIdRefl->getValue($subChunk)) {
@@ -66,8 +66,8 @@ class DoubleSlabsListener implements Listener {
 			}
 		}
 
-		$isBottomSlab = $block->getSlabType() === SlabType::BOTTOM;
-		$heldBlock->setSlabType($isBottomSlab ? SlabType::TOP : SlabType::BOTTOM);
+		$isBottomSlab = $block->getSlabType() === SlabType::BOTTOM();
+		$heldBlock->setSlabType($isBottomSlab ? SlabType::TOP() : SlabType::BOTTOM());
 
 		/** @var int */
 		$x = $block->getPosition()->x;
@@ -93,7 +93,7 @@ class DoubleSlabsListener implements Listener {
 		if ($block->getTypeId() === $heldBlock->getTypeId()) {
 			if (($existingState = $layers[1]->get($x, $y, $z)) !== $this->emptyIdRefl->getValue($subChunk)) {
 				$event->cancel();
-				$isBelow = $block->getSlabType() === SlabType::TOP;
+				$isBelow = $block->getSlabType() === SlabType::TOP();
 				$heldBlock->setSlabType($block->getSlabType());
 				$player->getWorld()->setBlockAt($x, $y + ($isBelow ? -1 : 1), $z, $heldBlock);
 				$player->getWorld()->addSound($block->getPosition()->add(0, $isBelow ? -1 : 1, 0), new BlockPlaceSound($heldBlock));
@@ -116,7 +116,7 @@ class DoubleSlabsListener implements Listener {
 	public function onBlockBreak(BlockBreakEvent $event) : void {
 		$block = $event->getBlock();
 		$player = $event->getPlayer();
-		if ($block instanceof Slab && $block->getSlabType() !== SlabType::DOUBLE) {
+		if ($block instanceof Slab && $block->getSlabType() !== SlabType::DOUBLE()) {
 			$x = $block->getPosition()->x;
 			$y = $block->getPosition()->y;
 			$z = $block->getPosition()->z;
