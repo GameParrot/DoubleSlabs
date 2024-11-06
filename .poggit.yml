@@ -5,4 +5,5 @@ branches:
 projects:
   DoubleSlabs:
     path: ""
+    icon: "icon.png"
 ...
